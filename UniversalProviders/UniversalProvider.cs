@@ -6,12 +6,18 @@ using KitchenLib.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Collections;
+using Unity.Entities;
 
 namespace UniversalProviders
 {
-	public struct CUniversalProvider : IApplianceProperty
+	public struct CUniversalProvider : IApplianceProperty, IAttachableProperty, IComponentData
 	{
-		public int Item;
+		public int ItemID;
+
+		public CUniversalProvider()
+		{
+			ItemID = ItemReferences.Apple;
+		}
 	}
 	public class UniversalProvider : CustomAppliance
 	{
@@ -22,7 +28,7 @@ namespace UniversalProviders
 		{
 			new CItemProvider
 			{
-				Available = 999,
+				Available = 500,
 				Maximum = 999
 			},
 			new CUniversalProvider()
@@ -32,7 +38,8 @@ namespace UniversalProviders
 		{
 			(Locale.English, new ApplianceInfo
 			{
-				Name = "Universal Provider"
+				Name = "Universal Provider",
+				Description = "Ever wanted a provider that can provide any item? Well, now you can!"
 			})
 		};
 
@@ -41,7 +48,8 @@ namespace UniversalProviders
 			Appliance appliance = (Appliance)gameDataObject;
 			GameObject prefab = appliance.Prefab;
 
-			prefab.AddComponent<ProviderView>();
+			ProviderView view = prefab.AddComponent<ProviderView>();
+			view.HoldPoint = GameObjectUtils.GetChildObject(prefab, "HoldPoint");
 
 			MaterialUtils.ApplyMaterial(prefab, "Blueprint/Blueprint/Cube", new Material[] { MaterialUtils.GetExistingMaterial("Blueprint Light") });
 			MaterialUtils.ApplyMaterial(prefab, "Blueprint/Blueprint/Cube.001", new Material[] { MaterialUtils.GetExistingMaterial("Flat Image - Faded") });

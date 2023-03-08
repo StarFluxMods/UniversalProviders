@@ -1,5 +1,6 @@
 ﻿using Kitchen;
 using KitchenData;
+using KitchenLib.Preferences;
 using KitchenLib.Utils;
 using KitchenMods;
 using MessagePack;
@@ -39,7 +40,7 @@ namespace UniversalProviders
 					int active = 0;
 					if (Require(entities[i], out CUniversalProvider itemProvider))
 					{
-						active = itemProvider.Item;
+						active = itemProvider.ItemID;
 					}
 					ViewData data = new ViewData
 					{
@@ -80,14 +81,31 @@ namespace UniversalProviders
 		{
 			if (_ActiveID != 0)
 			{
+				HoldPoint.transform.RemoveChildren();
 				GameObject image = GameObjectUtils.GetChildObject(transform.gameObject, "Blueprint/Blueprint/Cube.001");
 				GameObject text = GameObjectUtils.GetChildObject(transform.gameObject, "Blueprint/Blueprint/Text");
 				MeshRenderer renderer = image.GetComponent<MeshRenderer>();
 				TextMeshPro tmp = text.GetComponent<TextMeshPro>();
 				Item item = GameData.Main.Get<Item>(_ActiveID);
-				renderer.material.SetTexture("_Image", PrefabSnapshot.GetItemSnapshot(item.Prefab));
+
+				if (Main.manager.GetPreference<PreferenceBool>("usingModels").Get())
+				{
+					HoldPoint.SetActive(true);
+					renderer.material.SetTexture("_Image", PrefabSnapshot.GetItemSnapshot(HoldPoint));
+					GameObject gameObject = GameObject.Instantiate(item.Prefab);
+					gameObject.transform.parent = HoldPoint.transform;
+					gameObject.transform.localPosition = Vector3.zero;
+					gameObject.transform.localScale = Vector3.one;
+				}
+				else
+				{
+					HoldPoint.SetActive(false);
+					renderer.material.SetTexture("_Image", PrefabSnapshot.GetItemSnapshot(item.Prefab));
+				}
+
 				tmp.text = item.name;
 			}
 		}
+		public GameObject HoldPoint;
 	}
 }
