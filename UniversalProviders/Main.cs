@@ -6,7 +6,6 @@ using KitchenMods;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using UnityExplorer.UI;
 
 namespace UniversalProviders
 {
@@ -15,9 +14,9 @@ namespace UniversalProviders
 		public const string MOD_ID = "universalproviders";
 		public const string MOD_NAME = "Universal Providers";
 		public const string MOD_AUTHOR = "StarFluxMods";
-		public const string MOD_VERSION = "0.1.0";
+		public const string MOD_VERSION = "0.1.1";
 		public const string MOD_BETA_VERSION = "";
-		public const string MOD_COMPATIBLE_VERSIONS = "1.1.4";
+		public const string MOD_COMPATIBLE_VERSIONS = ">=1.1.4";
 
 		public static AssetBundle bundle;
 		public static PreferenceManager manager;
@@ -35,12 +34,14 @@ namespace UniversalProviders
 
 			ModsPreferencesMenu<PauseMenuAction>.RegisterMenu("Universal Providers", typeof(PreferenceMenu<PauseMenuAction>), typeof(PauseMenuAction));
 
-			Events.PreferenceMenu_PauseMenu_CreateSubmenusEvent += (s, args) => {
+			Events.PreferenceMenu_PauseMenu_CreateSubmenusEvent += (s, args) =>
+			{
 				args.Menus.Add(typeof(PreferenceMenu<PauseMenuAction>), new PreferenceMenu<PauseMenuAction>(args.Container, args.Module_list));
 			};
-			
+
 
 			AddGameDataObject<UniversalProvider>();
+			AddGameDataObject<GlobalProvider>();
 		}
 	}
 }

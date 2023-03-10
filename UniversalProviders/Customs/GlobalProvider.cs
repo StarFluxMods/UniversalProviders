@@ -5,40 +5,30 @@ using KitchenLib.References;
 using KitchenLib.Utils;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Collections;
-using Unity.Entities;
 
 namespace UniversalProviders
 {
-	public struct CUniversalProvider : IApplianceProperty, IAttachableProperty, IComponentData
-	{
-		public int ItemID;
 
-		public CUniversalProvider()
-		{
-			ItemID = ItemReferences.Apple;
-		}
-	}
-	public class UniversalProvider : CustomAppliance
+	public class GlobalProvider : CustomAppliance
 	{
 		public override int BaseGameDataObjectID => ApplianceReferences.OfficeDesk;
-		public override string UniqueNameID => "UniversalProvider";
-		public override GameObject Prefab => Main.bundle.LoadAsset<GameObject>("UniversalProvider");
+		public override string UniqueNameID => "GlobalProvider";
+		public override GameObject Prefab => Main.bundle.LoadAsset<GameObject>("GlobalProvider");
 		public override List<IApplianceProperty> Properties => new List<IApplianceProperty>
 		{
 			new CItemProvider
 			{
-				Available = 500,
-				Maximum = 999
+				Maximum = 0,
+				Available = 0
 			},
-			new CUniversalProvider()
+			new CGlobalProvider()
 		};
 
 		public override List<(Locale, ApplianceInfo)> InfoList => new List<(Locale, ApplianceInfo)>
 		{
 			(Locale.English, new ApplianceInfo
 			{
-				Name = "Universal Provider",
+				Name = "Global Provider",
 				Description = "Ever wanted a provider that can provide any item? Well, now you can!"
 			})
 		};
@@ -48,10 +38,10 @@ namespace UniversalProviders
 			Appliance appliance = (Appliance)gameDataObject;
 			GameObject prefab = appliance.Prefab;
 
-			ProviderView view = prefab.AddComponent<ProviderView>();
+			GlobalProviderView view = prefab.AddComponent<GlobalProviderView>();
 			view.HoldPoint = GameObjectUtils.GetChildObject(prefab, "HoldPoint");
 
-			MaterialUtils.ApplyMaterial(prefab, "Blueprint/Blueprint/Cube", new Material[] { MaterialUtils.GetExistingMaterial("Blueprint Light") });
+			MaterialUtils.ApplyMaterial(prefab, "Blueprint/Blueprint/Cube", new Material[] { MaterialUtils.GetCustomMaterial("Blueprint Light - Green") });
 			MaterialUtils.ApplyMaterial(prefab, "Blueprint/Blueprint/Cube.001", new Material[] { MaterialUtils.GetExistingMaterial("Flat Image - Faded") });
 		}
 	}

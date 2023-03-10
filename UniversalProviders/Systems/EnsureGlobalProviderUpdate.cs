@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kitchen;
+﻿using Kitchen;
 using KitchenMods;
 using Unity.Collections;
 using Unity.Entities;
 
 namespace UniversalProviders
 {
-	public class EnsureUniversalProviderUpdate : GameSystemBase, IModSystem
+	public class EnsureGlobalProviderUpdate : GameSystemBase, IModSystem
 	{
 
 		protected override void Initialise()
 		{
 			base.Initialise();
-			query = GetEntityQuery(new ComponentType[] { typeof(CUniversalProvider), typeof(CItemProvider) });
+			query = GetEntityQuery(new ComponentType[] { typeof(CGlobalProvider), typeof(CItemProvider) });
 		}
 
 		protected override void OnUpdate()
@@ -26,7 +21,7 @@ namespace UniversalProviders
 			for (int i = 0; i < nativeArray.Length; i++)
 			{
 				Entity entity = nativeArray[i];
-				if (Require(entity, out CUniversalProvider uProvider))
+				if (Require(entity, out CGlobalProvider uProvider))
 				{
 					if (Require(entity, out CItemProvider provider))
 					{
@@ -34,7 +29,7 @@ namespace UniversalProviders
 						{
 							if (uProvider.ItemID != 0)
 							{
-								provider.ProvidedItem = uProvider.ItemID;
+								provider.SetAsItem(uProvider.ItemID);
 								SetComponent(entity, provider);
 							}
 						}

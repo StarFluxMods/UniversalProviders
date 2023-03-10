@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Kitchen;
+﻿using Kitchen;
 using Kitchen.Modules;
 using KitchenLib;
 using KitchenLib.Preferences;
-using KitchenLib.UI;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UniversalProviders
@@ -18,7 +12,7 @@ namespace UniversalProviders
 		public PreferenceMenu(Transform container, ModuleList module_list) : base(container, module_list)
 		{
 		}
-		
+
 		public override void Setup(int player_id)
 		{
 			AddLabel("Use 3D Models");
@@ -27,7 +21,7 @@ namespace UniversalProviders
 			{
 				Main.manager.GetPreference<PreferenceBool>("usingModels").Set(result);
 			};
-			
+
 			New<SpacerElement>(true);
 			New<SpacerElement>(true);
 
@@ -38,6 +32,6 @@ namespace UniversalProviders
 			}, 0, 1f, 0.2f);
 		}
 
-		private Option<bool> is3DModel = new Option<bool>(new List<bool> { true, false }, Main.manager.GetPreference<PreferenceBool>("usingModels").Get(), new List<string> { "Enabled", "Disabled"});
+		private Option<bool> is3DModel = new Option<bool>(new List<bool> { true, false }, Main.manager.GetPreference<PreferenceBool>("usingModels").Get(), new List<string> { "Enabled", "Disabled" });
 	}
 }

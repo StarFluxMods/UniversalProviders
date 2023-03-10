@@ -4,7 +4,6 @@ using KitchenLib.Preferences;
 using KitchenLib.Utils;
 using KitchenMods;
 using MessagePack;
-using System.Reflection;
 using TMPro;
 using Unity.Collections;
 using Unity.Entities;
@@ -12,7 +11,7 @@ using UnityEngine;
 
 namespace UniversalProviders
 {
-	public class ProviderView : UpdatableObjectView<ProviderView.ViewData>
+	public class GlobalProviderView : UpdatableObjectView<GlobalProviderView.ViewData>
 	{
 		#region ECS View System (Runs on host and updates views to be broadcasted to clients)
 		public class UpdateView : IncrementalViewSystemBase<ViewData>, IModSystem
@@ -24,7 +23,7 @@ namespace UniversalProviders
 				base.Initialise();
 
 				Views = GetEntityQuery(new QueryHelper()
-					.All(typeof(CUniversalProvider), typeof(CLinkedView)));
+					.All(typeof(CGlobalProvider), typeof(CLinkedView)));
 			}
 
 			protected override void OnUpdate()
@@ -38,7 +37,7 @@ namespace UniversalProviders
 					var view = views[i];
 
 					int active = 0;
-					if (Require(entities[i], out CUniversalProvider itemProvider))
+					if (Require(entities[i], out CGlobalProvider itemProvider))
 					{
 						active = itemProvider.ItemID;
 					}
@@ -62,7 +61,7 @@ namespace UniversalProviders
 		{
 			[Key(1)] public int ActiveID;
 
-			public IUpdatableObject GetRelevantSubview(IObjectView view) => view.GetSubView<ProviderView>();
+			public IUpdatableObject GetRelevantSubview(IObjectView view) => view.GetSubView<GlobalProviderView>();
 
 			public bool IsChangedFrom(ViewData cached)
 			{

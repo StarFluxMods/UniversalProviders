@@ -7,7 +7,7 @@ using Unity.Entities;
 
 namespace UniversalProviders
 {
-	public class ProviderSystem : ItemInteractionSystem, IModSystem
+	public class UniversalProviderSystem : ItemInteractionSystem, IModSystem
 	{
 		private List<int> items = new List<int>();
 		protected override void Initialise()
@@ -50,7 +50,18 @@ namespace UniversalProviders
 					else
 						x = 1;
 
-					provider.ItemID = items[(items.IndexOf(provider.ItemID) + x) % items.Count];
+					if (((items.IndexOf(provider.ItemID) + x) % items.Count) < 0)
+					{
+						provider.ItemID = items[items.Count - 1];
+					}
+					else if (((items.IndexOf(provider.ItemID) + x) % items.Count) > items.Count)
+					{
+						provider.ItemID = items[0];
+					}
+					else
+					{
+						provider.ItemID = items[(items.IndexOf(provider.ItemID) + x) % items.Count];
+					}
 					EntityManager.SetComponentData<CUniversalProvider>(data.Target, provider);
 
 				}
