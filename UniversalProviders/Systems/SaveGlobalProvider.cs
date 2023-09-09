@@ -42,9 +42,9 @@ namespace UniversalProviders
 			}
 		}
 
-		public override void AfterLoading()
+		public override void AfterLoading(SaveSystemType system_type)
 		{
-			base.AfterLoading();
+			base.AfterLoading(system_type);
 			if (CUniversalProviders != null)
 			{
 				NativeArray<Entity> nativeArray = query.ToEntityArray(Allocator.Temp);

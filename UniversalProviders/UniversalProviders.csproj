@@ -6,19 +6,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Yariazen.PlateUp.ModBuildUtilities" Version="1.6.16" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="KitchenLib-Workshop">
-	    <HintPath>..\..\..\..\Libraries\KitchenLib\KitchenLib-Workshop.dll</HintPath>
-	  </Reference>
-	  <Reference Include="MessagePack">
-	    <HintPath>..\..\..\..\Libraries\PlateUp_Data\Managed\MessagePack.dll</HintPath>
-	  </Reference>
-	  <Reference Include="MessagePack.Annotations">
-	    <HintPath>..\..\..\..\Libraries\PlateUp_Data\Managed\MessagePack.Annotations.dll</HintPath>
-	  </Reference>
+		<PackageReference Include="Yariazen.PlateUp.ModBuildUtilities" Version="1.10.21" />
 	</ItemGroup>
 
 </Project>
