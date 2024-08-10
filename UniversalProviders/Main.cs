@@ -14,9 +14,9 @@ namespace UniversalProviders
 		public const string MOD_ID = "universalproviders";
 		public const string MOD_NAME = "Universal Providers";
 		public const string MOD_AUTHOR = "StarFluxMods";
-		public const string MOD_VERSION = "0.1.2";
+		public const string MOD_VERSION = "0.1.3";
 		public const string MOD_BETA_VERSION = "";
-		public const string MOD_COMPATIBLE_VERSIONS = ">=1.1.4";
+		public const string MOD_COMPATIBLE_VERSIONS = ">=1.2.0";
 
 		public static AssetBundle bundle;
 		public static PreferenceManager manager;
@@ -32,11 +32,15 @@ namespace UniversalProviders
 
 			manager.Load();
 
-			ModsPreferencesMenu<PauseMenuAction>.RegisterMenu("Universal Providers", typeof(PreferenceMenu<PauseMenuAction>), typeof(PauseMenuAction));
+			ModsPreferencesMenu<MenuAction>.RegisterMenu("Universal Providers", typeof(PreferenceMenu<MenuAction>), typeof(MenuAction));
 
-			Events.PreferenceMenu_PauseMenu_CreateSubmenusEvent += (s, args) =>
+			Events.PlayerPauseView_SetupMenusEvent += (s, args) =>
 			{
-				args.Menus.Add(typeof(PreferenceMenu<PauseMenuAction>), new PreferenceMenu<PauseMenuAction>(args.Container, args.Module_list));
+				args.addMenu.Invoke(args.instance, new object[] { typeof(PreferenceMenu<MenuAction>), new PreferenceMenu<MenuAction>(args.instance.ButtonContainer, args.module_list) });
+			};
+			Events.MainMenuView_SetupMenusEvent += (s, args) =>
+			{
+				args.addMenu.Invoke(args.instance, new object[] { typeof(PreferenceMenu<MenuAction>), new PreferenceMenu<MenuAction>(args.instance.ButtonContainer, args.module_list) });
 			};
 
 

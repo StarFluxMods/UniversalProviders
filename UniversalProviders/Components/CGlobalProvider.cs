@@ -1,9 +1,10 @@
 ﻿using KitchenData;
+using KitchenMods;
 using Unity.Entities;
 
 namespace UniversalProviders
 {
-	public struct CGlobalProvider : IApplianceProperty, IAttachableProperty, IComponentData
+	public struct CGlobalProvider : IModComponent, IApplianceProperty, IAttachableProperty, IComponentData
 	{
 		public int ItemID;
 

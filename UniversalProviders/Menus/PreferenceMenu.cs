@@ -20,6 +20,7 @@ namespace UniversalProviders
 			is3DModel.OnChanged += delegate (object _, bool result)
 			{
 				Main.manager.GetPreference<PreferenceBool>("usingModels").Set(result);
+				Main.manager.Save();
 			};
 
 			New<SpacerElement>(true);

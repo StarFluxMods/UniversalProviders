@@ -27,19 +27,7 @@ namespace UniversalProviders
 
 		protected override bool IsPossible(ref InteractionData data)
 		{
-			bool result = true;
-			if (Require(data.Interactor, out CInputData input))
-			{
-				if (Require(data.Target, out CGlobalProvider provider))
-				{
-					result = true;
-				}
-				else
-					result = false;
-			}
-			else
-				result = false;
-			return result;
+			return Has<CGlobalProvider>(data.Target) && Has<CInputData>(data.Interactor);
 		}
 
 		protected override void Perform(ref InteractionData data)
